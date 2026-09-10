@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	httpAddr = env.GetString("HTTP_ADDR", ":8081")
+	httpAddr = env.GetString("GATEWAY_HTTP_ADDR", ":8081")
 )
 
 func main() {
@@ -19,5 +19,7 @@ func main() {
 		w.Write([]byte("Hello from API Gateway"))
 	})
 
-	http.ListenAndServe(httpAddr, nil)
+	if err := http.ListenAndServe(httpAddr, nil); err != nil {
+		log.Fatalf("API Gateway stopped: %v", err)
+	}
 }
